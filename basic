@@ -1,0 +1,55 @@
+Apache Tomcat is a Java-capable HTTP server, which could execute special Java programs known as "Java Servlet" and "Java Server Pages(JSP)"
+
+Tomcat is an HTTP application runs over TCP/IP.
+In other word, the Tomcat server runs on a specific TCP port from a specific IP address.
+The default TCP port number for HTTP protocol is 80, which is used for the production HTTP server.
+For test HTTP server, you can choose any unused port number between 1024 and 65535.
+
+Tomcat's directory:
+bin:contains the binaries; and startup script(startup.bat for Windows and startup.sh for Unixes and Mac OS), shutdown script(shutdown.bat for Windows and shutdown.sh for Unix and Mac OS), and other binaries and scripts.
+conf: contains the system-wide configuration files, such as server.xml, web.xml, and context.xml.
+webapps:contains the webapps to be deployed, you can also place the WAP(Webapp Archive) file for deployment here.
+lib: contains the Tomcat's system-wide JAR ifles, accessible by all webapps. you could also place external JAR file(such as MySQL JDBC Driver) here.
+logs: contains Tomcat's log files, you may need to check for error messages here.
+work: Tomcat's working directory used by JSP, for JSP-to-Servlet conversion.
+
+
+step1:
+download and unzip tomcat file to one directory
+step2:
+set JAVA_HOME to your JDK installed directory
+step3:
+configure tomcat server
+    server.xml:   Set the TCP Port Number
+        configure TCP port number to any unused number between 1024 and 65535.
+        <Connector port="9999" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
+    web.xml:  Enabling Directory Listing
+            enable derectory listing by changing "listings" from "false" to "true" for the "default" servlet.
+            this is handy for test system, but not for production system for security reasons.
+            <servlet>
+                <servlet-name>default</servlet-name>
+                <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+                <init-param>
+                  <param-name>debug</param-name>
+                  <param-value>0</param-value>
+                </init-param>
+                <init-param>
+                  <param-name>listings</param-name>
+                  <param-value>true</param-value>  // false to true
+                </init-param>
+                <load-on-startup>1</load-on-startup>
+            </servlet>
+    context.xml:  Enabling Automatic Reload
+        We shall add the attribute reloadable="true" to the <Context> element to enable automatic reload after code changes. 
+        Again, this is handy for test system but not for production, due to the overhead of detecting changes.
+        <Context reloadable="true">
+           ......
+           ......
+        </Context>
+
+
+
+
+
+
+
