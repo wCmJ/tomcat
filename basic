@@ -46,6 +46,66 @@ configure tomcat server
            ......
            ......
         </Context>
+step4:
+develop and deploy a WebApp
+    in webapps directory, create hello->WEB-INF->classes
+    hello:You should keep all your HTML files and resources visible to the web users (e.g., HTMLs, CSSs, images, scripts, JSPs) under this context root.
+    WEB-INF:This directory, although under the context root, is not visible to the web users. This is where you keep your application's web descriptor file "web.xml".
+    classes:This is where you keep all the Java classes such as servlet class-files.
+step5:
+write a "hello world" Java Servlet
+    write a "HelloServlet.java" and save it under your application "classes" directory.
+step6:
+compiling the Servlet
+    We need the Servlet API to compile the servlet. 
+    Servlet API is NOT part of JDK. Nonetheless, Tomcat provides a copy in <TOMCAT_HOME>/lib/servlet-api.jar. 
+    We need to include this JAR file in the compilation via the -cp (classpath) option.
+    
+    Windows:
+    c:
+    cd \myWebProject\tomcat\webapps\hello\WEB-INF\classes
+    javac -cp .;c:\myWebProject\tomcat\lib\servlet-api.jar HelloServlet.java
+    
+    Mac OS:
+    cd ~/myWebProject/tomcat/webapps/hello/WEB-INF/classes
+    javac -cp .:$HOME/myWebProject/tomcat/lib/servlet-api.jar HelloServlet.java
+    
+    The output of the compilation is "HelloServlet.class". Browse the "classes" folder to make sure that it has been created.
+step7:
+Configure Servlet's Request URL in "webapps\hello\WEB-INF\web.xml"
+    A web user invokes a servlet, which is kept in the web server, by issuing a request URL from the browser. 
+    We need to configure this request URL for our HelloServlet.
+    
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <web-app version="3.0"
+      xmlns="http://java.sun.com/xml/ns/javaee"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+       <!-- To save as "hello\WEB-INF\web.xml" -->
+
+       <servlet>
+          <servlet-name>HelloWorld</servlet-name>
+          <servlet-class>HelloServlet</servlet-class>
+       </servlet>
+
+       <!-- Note: All <servlet> elements MUST be grouped together and
+             placed IN FRONT of the <servlet-mapping> elements -->
+
+       <servlet-mapping>
+          <servlet-name>HelloWorld</servlet-name>
+          <url-pattern>/sayhello</url-pattern>
+       </servlet-mapping>
+    </web-app>
+
+
+
+
+
+
+
+
+
 
 
 
